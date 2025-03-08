@@ -438,6 +438,7 @@ button {
     color: #7f8c8d;
     opacity: 0;
     transition: opacity 0.3s ease;
+    min-width: 200px;
 }
 
 .thumbnail-loading.visible {
@@ -445,12 +446,20 @@ button {
 }
 
 .thumbnail-loading .loading-spinner {
-    width: 20px;
-    height: 20px;
-    border-width: 2px;
-    position: static;
-    transform: none;
-    display: block;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(52, 152, 219, 0.1);
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    flex-shrink: 0;
+    position: relative;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Progress text in stats */
@@ -606,7 +615,6 @@ button {
     border-radius: 50%;
     animation: spin 1s linear infinite;
     display: none;
-    z-index: 100;
 }
 
 .media-container.loading .loading-spinner {
@@ -681,10 +689,15 @@ button {
     cursor: pointer;
     z-index: 1;
     transition: background-color 0.2s ease;
+    height: 36px;
 }
 
 .save-button:hover {
     background: #2980b9;
+}
+
+.save-button .material-icons {
+    font-size: 20px;
 }
 
 .save-spinner {
@@ -692,10 +705,18 @@ button {
     height: 20px;
     animation: rotate 2s linear infinite;
     display: none;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.save-button.saving {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .save-button.saving .save-spinner {
-    display: block;
+    display: inline-block;
 }
 
 .save-button.saving .material-icons {

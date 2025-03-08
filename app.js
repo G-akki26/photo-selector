@@ -484,8 +484,8 @@ function handleExport() {
     // Get folder path components
     const pathParts = state.mediaFiles[0].webkitRelativePath.split('/');
     const parentFolder = pathParts[0];
-    const subFolder = pathParts[1] || '';
-    const fileName = `${parentFolder}_${subFolder}_accepted.txt`;
+    const currentFolder = pathParts[1] || '';
+    const fileName = `${parentFolder}_${currentFolder}_accepted.txt`;
 
     let content = '';
     state.decisions.accepted.forEach(file => {
@@ -493,23 +493,18 @@ function handleExport() {
         content += `${file.webkitRelativePath}${tags.length ? ` [${tags.join(', ')}]` : ''}\n`;
     });
 
-    // Create file picker for directory selection
-    const picker = document.createElement('input');
-    picker.type = 'file';
-    picker.webkitdirectory = true;
-    picker.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-            const exportPath = e.target.files[0].path;
-            const blob = new Blob([content], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-    });
-    picker.click();
+    // Create and trigger download
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    showNotification('Export completed successfully!');
 }
 
 // Handle keyboard shortcuts
@@ -758,14 +753,22 @@ function showNotification(message, type = 'info') {
     style.textContent = `
         .notification {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 12px 24px;
-            border-radius: 6px;
+            top: 15%;
+            right: 40%;
+            padding: 8px 16px;
+            border-radius: 4px;
             background: white;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s;
+            font-size: 14px;
+            line-height: 1.2;
+            display: inline-block;
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: auto;
         }
         .notification.info {
             background: #3498db;
@@ -787,7 +790,10 @@ function showNotification(message, type = 'info') {
     document.head.appendChild(style);
 
     document.body.appendChild(notification);
-    setTimeout(() => notification.remove(), 3000);
+    setTimeout(() => {
+        notification.remove();
+        style.remove();
+    }, 3000);
 }
 
 // Check for unsaved changes
