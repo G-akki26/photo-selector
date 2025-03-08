@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Selector</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="navbar"  aria-label="Photo selector">
+            <div class="navbar-brand">
+                <span class="material-icons app-icon">photo_library</span>
+                <h1>Photo Selector</h1>
+            </div>
+            <div class="navbar-controls">
+                <button id="selectFolder" class="primary-button">
+                    <span class="material-icons">create_new_folder</span>
+                    Select Folder
+                </button>
+                <button id="exportAccepted" class="secondary-button">
+                    <span class="material-icons">file_download</span>
+                    Export Accepted
+                </button>
+            </div>
+        </nav>
+
+        <div class="stats-bar">
+            <div class="stat accepted">
+                <span class="material-icons">check_circle</span>
+                <span id="acceptedCount">0</span> Accepted
+            </div>
+            <div class="stat rejected">
+                <span class="material-icons">cancel</span>
+                <span id="rejectedCount">0</span> Rejected
+            </div>
+            <div class="stat held">
+                <span class="material-icons">pause_circle</span>
+                <span id="heldCount">0</span> On Hold
+            </div>
+            <div class="stat remaining">
+                <span class="material-icons">pending</span>
+                <span id="remainingCount">0</span> Remaining
+            </div>
+            <button class="save-button" id="saveProgress">
+                <svg class="save-spinner" viewBox="0 0 50 50">
+                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                </svg>
+                <span class="material-icons">save</span>
+                Save Progress
+            </button>
+        </div>
+
+        <div class="main-container">
+            <aside class="sidebar">
+                <button class="sidebar-toggle" title="Toggle Sidebar">
+                    <span class="material-icons">chevron_left</span>
+                </button>
+                <div class="sidebar-content">
+                    <div class="sidebar-header">
+                        <h2>Filters</h2>
+                    </div>
+                    <nav class="filter-list" aria-label="Photo filters">
+                        <button class="filter-btn active" data-filter="all">
+                            <span class="material-icons">photo_library</span>
+                            All Photos <span class="count">0</span>
+                        </button>
+                        <button class="filter-btn" data-filter="accepted">
+                            <span class="material-icons">check_circle</span>
+                            Accepted <span class="count">0</span>
+                        </button>
+                        <button class="filter-btn" data-filter="rejected">
+                            <span class="material-icons">cancel</span>
+                            Rejected <span class="count">0</span>
+                        </button>
+                        <button class="filter-btn" data-filter="held">
+                            <span class="material-icons">pause_circle</span>
+                            On Hold <span class="count">0</span>
+                        </button>
+                        <button class="filter-btn" data-filter="unprocessed">
+                            <span class="material-icons">pending</span>
+                            Unprocessed <span class="count">0</span>
+                        </button>
+                    </nav>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <div class="content">
+                    <div class="media-container">
+                        <div class="loading-spinner"></div>
+                        <div class="image-status" id="imageStatus"></div>
+                        <div class="tag-selector" id="tagSelector">
+                            <button class="tag-btn" data-tag="haldi">Haldi</button>
+                            <button class="tag-btn" data-tag="mehndi">Mehndi</button>
+                            <button class="tag-btn" data-tag="varmala">Varmala</button>
+                            <button class="tag-btn" data-tag="reception">Reception</button>
+                            <button class="tag-btn" data-tag="family">Family</button>
+                        </div>
+                        <div class="image-controls">
+                            <button class="control-btn" id="zoomOut" title="Zoom Out">
+                                <span class="material-icons">zoom_out</span>
+                            </button>
+                            <button class="control-btn" id="zoomIn" title="Zoom In">
+                                <span class="material-icons">zoom_in</span>
+                            </button>
+                            <button class="control-btn" id="fitView" title="Fit to View">
+                                <span class="material-icons">fit_screen</span>
+                            </button>
+                            <button class="control-btn" id="fullScreen" title="Full Screen">
+                                <span class="material-icons">fullscreen</span>
+                            </button>
+                        </div>
+                        <div class="image-wrapper">
+                            <button class="nav-btn prev" id="prevImage" title="Previous (Left Arrow)">
+                                <span class="material-icons">chevron_left</span>
+                            </button>
+                            <img id="currentMedia" alt="Current Media">
+                            <button class="nav-btn next" id="nextImage" title="Next (Right Arrow)">
+                                <span class="material-icons">chevron_right</span>
+                            </button>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="action-btn reject" title="Reject (X)">✕</button>
+                            <button class="action-btn hold" title="Hold (H)">⏸</button>
+                            <button class="action-btn accept" title="Accept (Space)">✓</button>
+                        </div>
+                    </div>
+
+                    <div class="thumbnail-container">
+                        <div class="thumbnail-strip">
+                            <!-- Thumbnails will be added here dynamically -->
+                        </div>
+                        <div class="thumbnail-loading">
+                            <div class="loading-spinner"></div>
+                            <span>Loading more photos...</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html> 
